@@ -1,0 +1,6 @@
+<JSONThreatProtection async="false" continueOnError="false" enabled="true" name="JSONThreatProtection">
+  <DisplayName>JSON Threat Protection</DisplayName>
+  <Request>
+    <JSON maxArrayDepth="10" maxObjectDepth="10" maxStringLength="5000" maxNodeLength="5000" maxKeys="100"/>
+  </Request>
+</JSONThreatProtection>

@@ -1,0 +1,85 @@
+openapi: 3.0.1
+info:
+  title: Customers SAPI
+  version: v1
+paths:
+  /customers:
+    get:
+      summary: Get all customers
+      responses:
+        '200':
+          description: A list of customers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+    post:
+      summary: Create a new customer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        '201':
+          description: Customer created
+  /customers/{customer_id}:
+    get:
+      summary: Get customer by ID
+      parameters:
+        - name: customer_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: A single customer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+    /orders:
+      get:
+        summary: Get orders for a customer
+        responses:
+          '200':
+            description: A list of orders
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Order'
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        customerID?: string
+        firstName: string
+        lastName: string
+        address: !include Address.raml
+        phone: string
+        email: string
+        dateOfBirth: date-only
+
+    Order:
+      type: object
+      properties:
+        orderID: string
+        customerID: string
+        items:
+          type: array
+          items: !include Item.raml
+        totalPrice: number
+        currency: string
+        status:
+          enum:
+            - waiting
+            - processing
+            - shipped
+            - delivered
+
