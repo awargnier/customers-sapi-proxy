@@ -1,5 +1,5 @@
-<JSONThreatProtection async="false" continueOnError="false" enabled="true" name="JSON-Threat-Protection-1">
-   <DisplayName>JSONThreatProtection 1</DisplayName>
+<JSONThreatProtection async="false" continueOnError="false" enabled="true" name="JSON-Threat-Protection">
+   <DisplayName>JSONThreatProtection</DisplayName>
    <ArrayElementCount>20</ArrayElementCount>
    <ContainerDepth>10</ContainerDepth>
    <ObjectEntryCount>15</ObjectEntryCount>
