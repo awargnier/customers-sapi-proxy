@@ -1,85 +1,249 @@
-openapi: 3.0.1
+openapi: 3.0.0
 info:
   title: Customers SAPI
   version: v1
 paths:
   /customers:
     get:
-      summary: Get all customers
       responses:
-        '200':
-          description: A list of customers
+        "200":
+          description: ""
           content:
             application/json:
               schema:
+                x-amf-examples:
+                  output:
+                    -
+                      customerID: 1fe1c22s-3d3a-9n3v
+                      firstName: Molly
+                      lastName: Mule
+                      address:
+                        addressLine1: 123 Street
+                        city: San Francisco
+                        state: California
+                        zipCode: "94110"
+                        country: United States
+                      phone: 415-000-0000
+                      email: molly@mulesoft.com
+                      dateOfBirth: 1990-09-04
+                    -
+                      customerID: 8f19c230-vs57-429d
+                      firstName: Max
+                      lastName: Mule
+                      address:
+                        addressLine1: 123 Street
+                        addressLine2: Apt.#3D
+                        city: San Francisco
+                        state: California
+                        zipCode: "94110"
+                        country: United States
+                      phone: 415-000-0000
+                      email: max@mulesoft.com
+                      dateOfBirth: 1988-07-01
                 type: array
                 items:
-                  $ref: '#/components/schemas/Customer'
+                  $ref: "#/components/schemas/Customer"
     post:
-      summary: Create a new customer
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Customer'
+              $ref: "#/components/schemas/Customer"
       responses:
-        '201':
-          description: Customer created
-  /customers/{customer_id}:
-    get:
-      summary: Get customer by ID
-      parameters:
-        - name: customer_id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A single customer
+        "201":
+          description: ""
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Customer'
-    /orders:
-      get:
-        summary: Get orders for a customer
-        responses:
-          '200':
-            description: A list of orders
-            content:
-              application/json:
-                schema:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Order'
+                example:
+                  message: Customer created
+  /customers/{customer_id}:
+    get:
+      parameters:
+        -
+          name: customer_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
+  /customers/{customer_id}/orders:
+    get:
+      parameters:
+        -
+          name: customer_id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                x-amf-examples:
+                  output:
+                    -
+                      orderID: sjjde-1255-dsc
+                      customerID: 1fe1c22s-3d3a-9n3v
+                      items:
+                        -
+                          itemID: i1
+                          name: Product1
+                          description: This is a description
+                          price: 19.99
+                          quantity: 3
+                        -
+                          itemID: i2
+                          name: Product2
+                          price: 4.90
+                          quantity: 1
+                      totalPrice: 64.87
+                      currency: EUR
+                      status: waiting
+                    -
+                      orderID: alpxw-8273-sar
+                      customerID: 1fe1c22s-3d3a-9n3v
+                      items:
+                        -
+                          itemID: i1
+                          name: Product1
+                          description: This is a description
+                          price: 19.99
+                          quantity: 1
+                      totalPrice: 19.99
+                      currency: USD
+                      status: shipped
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
 components:
   schemas:
     Customer:
+      x-amf-examples:
+        input:
+          firstName: John
+          lastName: Doe
+          address:
+            addressLine1: 1234 Lane
+            addressLine2: Apt.#620
+            city: San Francisco
+            state: California
+            zipCode: "94108"
+            country: United States
+          phone: 415-000-0000
+          email: johndoe@example.com
+          dateOfBirth: 1983-01-01
+        output:
+          customerID: 8f19cb50-3f57-4d38
+          firstName: John
+          lastName: Doe
+          address:
+            addressLine1: 1234 Lane
+            addressLine2: Apt.#620
+            city: San Francisco
+            state: California
+            zipCode: "94108"
+            country: United States
+          phone: 415-000-0000
+          email: johndoe@example.com
+          dateOfBirth: 1983-01-01
       type: object
+      required:
+        - firstName
+        - lastName
+        - address
+        - phone
+        - email
+        - dateOfBirth
       properties:
-        customerID?: string
-        firstName: string
-        lastName: string
-        address: !include Address.raml
-        phone: string
-        email: string
-        dateOfBirth: date-only
-
+        customerID:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        address:
+          $ref: "#/components/schemas/address"
+        phone:
+          type: string
+        email:
+          type: string
+        dateOfBirth:
+          type: string
+          format: date
     Order:
       type: object
+      required:
+        - orderID
+        - customerID
+        - items
+        - totalPrice
+        - currency
+        - status
       properties:
-        orderID: string
-        customerID: string
+        orderID:
+          type: string
+        customerID:
+          type: string
         items:
           type: array
-          items: !include Item.raml
-        totalPrice: number
-        currency: string
+          items:
+            $ref: "#/components/schemas/items"
+        totalPrice:
+          type: number
+        currency:
+          type: string
         status:
           enum:
             - waiting
             - processing
             - shipped
             - delivered
-
+          type: string
+    address:
+      type: object
+      required:
+        - addressLine1
+        - city
+        - state
+        - country
+        - zipCode
+      properties:
+        addressLine1:
+          type: string
+        addressLine2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        country:
+          type: string
+        zipCode:
+          type: string
+    items:
+      type: object
+      required:
+        - itemID
+        - name
+        - price
+        - quantity
+      properties:
+        itemID:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        quantity:
+          type: number
