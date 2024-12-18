@@ -1,6 +1,9 @@
-<JSONThreatProtection async="false" continueOnError="false" enabled="true" name="JSONThreatProtection">
-  <DisplayName>JSON Threat Protection</DisplayName>
-  <Request>
-    <JSON maxArrayDepth="10" maxObjectDepth="10" maxStringLength="5000" maxNodeLength="5000" maxKeys="100"/>
-  </Request>
+<JSONThreatProtection async="false" continueOnError="false" enabled="true" name="JSON-Threat-Protection-1">
+   <DisplayName>JSONThreatProtection 1</DisplayName>
+   <ArrayElementCount>20</ArrayElementCount>
+   <ContainerDepth>10</ContainerDepth>
+   <ObjectEntryCount>15</ObjectEntryCount>
+   <ObjectEntryNameLength>50</ObjectEntryNameLength>
+   <Source>request</Source>
+   <StringValueLength>500</StringValueLength>
 </JSONThreatProtection>
